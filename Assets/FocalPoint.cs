@@ -24,7 +24,7 @@ public class FocalPoint : MonoBehaviour
 
     // Boundaries
     float boundX = .3f;
-    float boundY_Positive = .3f;
+    float boundY_Positive = .2f;
     float boundY_Negative = -.6f;
     bool inBoundsX = true;
     bool inBoundsY = true;
