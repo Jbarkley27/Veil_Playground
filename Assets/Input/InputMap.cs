@@ -46,7 +46,7 @@ public partial class @InputMap : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Aim"",
+                    ""name"": ""AimMouse"",
                     ""type"": ""PassThrough"",
                     ""id"": ""9b1d0335-7a5c-45bb-8f87-e8bba28b0677"",
                     ""expectedControlType"": ""Vector2"",
@@ -71,6 +71,15 @@ public partial class @InputMap : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AimGamepad"",
+                    ""type"": ""Value"",
+                    ""id"": ""ff700df2-a8cf-43eb-96de-e060659d84e7"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -80,7 +89,7 @@ public partial class @InputMap : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Mouse&Keyboard"",
                     ""action"": ""Accelerate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -119,68 +128,13 @@ public partial class @InputMap : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Gamepad"",
-                    ""id"": ""142485f2-bc94-40b3-9ed4-71fc9f7edc33"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Aim"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Up"",
-                    ""id"": ""a3872aa8-9aa1-4de6-a7b4-01c58e4bbd0a"",
-                    ""path"": ""<Gamepad>/leftStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Down"",
-                    ""id"": ""e601873b-616c-48d5-8764-2d57e206eed7"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Left"",
-                    ""id"": ""5cfed504-a273-4ba7-8a22-55b6d116512f"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Right"",
-                    ""id"": ""db056598-6113-41e4-81f9-dc52a8d80fd5"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
-                    ""id"": ""5f93f5c6-6b3d-462b-ba8a-f5138c9e692f"",
+                    ""id"": ""a7d76653-4fd4-4e61-87da-0316807cef98"",
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Aim"",
+                    ""groups"": ""Mouse&Keyboard"",
+                    ""action"": ""AimMouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -315,19 +269,59 @@ public partial class @InputMap : IInputActionCollection2, IDisposable
                     ""action"": ""Strafe"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5d096ed4-dda2-4ea5-90f3-5215fa31ae3e"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone(min=0.1,max=1)"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""AimGamepad"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Gamepad"",
+            ""bindingGroup"": ""Gamepad"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Mouse&Keyboard"",
+            ""bindingGroup"": ""Mouse&Keyboard"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Accelerate = m_Gameplay.FindAction("Accelerate", throwIfNotFound: true);
         m_Gameplay_Boost = m_Gameplay.FindAction("Boost", throwIfNotFound: true);
-        m_Gameplay_Aim = m_Gameplay.FindAction("Aim", throwIfNotFound: true);
+        m_Gameplay_AimMouse = m_Gameplay.FindAction("AimMouse", throwIfNotFound: true);
         m_Gameplay_Blast = m_Gameplay.FindAction("Blast", throwIfNotFound: true);
         m_Gameplay_Strafe = m_Gameplay.FindAction("Strafe", throwIfNotFound: true);
+        m_Gameplay_AimGamepad = m_Gameplay.FindAction("AimGamepad", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -389,18 +383,20 @@ public partial class @InputMap : IInputActionCollection2, IDisposable
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Accelerate;
     private readonly InputAction m_Gameplay_Boost;
-    private readonly InputAction m_Gameplay_Aim;
+    private readonly InputAction m_Gameplay_AimMouse;
     private readonly InputAction m_Gameplay_Blast;
     private readonly InputAction m_Gameplay_Strafe;
+    private readonly InputAction m_Gameplay_AimGamepad;
     public struct GameplayActions
     {
         private @InputMap m_Wrapper;
         public GameplayActions(@InputMap wrapper) { m_Wrapper = wrapper; }
         public InputAction @Accelerate => m_Wrapper.m_Gameplay_Accelerate;
         public InputAction @Boost => m_Wrapper.m_Gameplay_Boost;
-        public InputAction @Aim => m_Wrapper.m_Gameplay_Aim;
+        public InputAction @AimMouse => m_Wrapper.m_Gameplay_AimMouse;
         public InputAction @Blast => m_Wrapper.m_Gameplay_Blast;
         public InputAction @Strafe => m_Wrapper.m_Gameplay_Strafe;
+        public InputAction @AimGamepad => m_Wrapper.m_Gameplay_AimGamepad;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -416,15 +412,18 @@ public partial class @InputMap : IInputActionCollection2, IDisposable
                 @Boost.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBoost;
                 @Boost.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBoost;
                 @Boost.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBoost;
-                @Aim.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAim;
-                @Aim.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAim;
-                @Aim.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAim;
+                @AimMouse.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAimMouse;
+                @AimMouse.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAimMouse;
+                @AimMouse.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAimMouse;
                 @Blast.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBlast;
                 @Blast.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBlast;
                 @Blast.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBlast;
                 @Strafe.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStrafe;
                 @Strafe.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStrafe;
                 @Strafe.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStrafe;
+                @AimGamepad.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAimGamepad;
+                @AimGamepad.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAimGamepad;
+                @AimGamepad.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAimGamepad;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -435,25 +434,47 @@ public partial class @InputMap : IInputActionCollection2, IDisposable
                 @Boost.started += instance.OnBoost;
                 @Boost.performed += instance.OnBoost;
                 @Boost.canceled += instance.OnBoost;
-                @Aim.started += instance.OnAim;
-                @Aim.performed += instance.OnAim;
-                @Aim.canceled += instance.OnAim;
+                @AimMouse.started += instance.OnAimMouse;
+                @AimMouse.performed += instance.OnAimMouse;
+                @AimMouse.canceled += instance.OnAimMouse;
                 @Blast.started += instance.OnBlast;
                 @Blast.performed += instance.OnBlast;
                 @Blast.canceled += instance.OnBlast;
                 @Strafe.started += instance.OnStrafe;
                 @Strafe.performed += instance.OnStrafe;
                 @Strafe.canceled += instance.OnStrafe;
+                @AimGamepad.started += instance.OnAimGamepad;
+                @AimGamepad.performed += instance.OnAimGamepad;
+                @AimGamepad.canceled += instance.OnAimGamepad;
             }
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+    private int m_GamepadSchemeIndex = -1;
+    public InputControlScheme GamepadScheme
+    {
+        get
+        {
+            if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
+            return asset.controlSchemes[m_GamepadSchemeIndex];
+        }
+    }
+    private int m_MouseKeyboardSchemeIndex = -1;
+    public InputControlScheme MouseKeyboardScheme
+    {
+        get
+        {
+            if (m_MouseKeyboardSchemeIndex == -1) m_MouseKeyboardSchemeIndex = asset.FindControlSchemeIndex("Mouse&Keyboard");
+            return asset.controlSchemes[m_MouseKeyboardSchemeIndex];
+        }
+    }
     public interface IGameplayActions
     {
         void OnAccelerate(InputAction.CallbackContext context);
         void OnBoost(InputAction.CallbackContext context);
-        void OnAim(InputAction.CallbackContext context);
+        void OnAimMouse(InputAction.CallbackContext context);
         void OnBlast(InputAction.CallbackContext context);
         void OnStrafe(InputAction.CallbackContext context);
+        void OnAimGamepad(InputAction.CallbackContext context);
     }
 }

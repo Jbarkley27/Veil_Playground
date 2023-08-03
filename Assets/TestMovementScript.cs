@@ -1,17 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Claims;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class MouseManager : MonoBehaviour
+public class TestMovementScript : MonoBehaviour
 {
-    public float precision = 100f;
-    public float movementInputX = 0f;
-    public float movementInputY = 0f;
-
     // Input Map
     private InputMap _inputMap;
+
+    public float precision = 100f;
+    public float mousePositionX = 0f;
+    public float mousePositionY = 0f;
 
     private void Awake()
     {
@@ -25,19 +24,31 @@ public class MouseManager : MonoBehaviour
         _inputMap.Enable();
 
         // Subscribe to Events
-        _inputMap.Gameplay.AimMouse.performed += AimWithMouse;
-        _inputMap.Gameplay.AimGamepad.performed += AimWithGamepad;
+        _inputMap.Gameplay.AimMouse.performed += MousePosition;
     }
 
     private void OnDisable()
     {
         // Unsubscribe from events
-        _inputMap.Gameplay.AimMouse.performed -= AimWithMouse;
-        _inputMap.Gameplay.AimGamepad.performed -= AimWithGamepad;
+        _inputMap.Gameplay.AimMouse.performed -= MousePosition;
     }
 
 
-    void AimWithMouse(InputAction.CallbackContext context)
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        transform.position += transform.forward * Time.deltaTime * 30f;
+
+        transform.Rotate(-mousePositionY, mousePositionX, 0);
+    }
+
+    void MousePosition(InputAction.CallbackContext context)
     {
         // Get the mouse position in screen coordinates
         Vector3 mouseScreenPosition = context.ReadValue<Vector2>();
@@ -54,26 +65,13 @@ public class MouseManager : MonoBehaviour
         float mouseY = (clampedY - 0.5f) * 2f;
 
         // Round the relative coordinates to the nearest tenth place
-        // and assign to global movement input variables
-        movementInputX = Mathf.Round(mouseX * precision) / precision;
-        movementInputY = Mathf.Round(mouseY * precision) / precision;
+        //mousePositionX = Mathf.Round(mouseX * precision) / precision;
+        //mousePositionY = Mathf.Round(mouseY * precision) / precision;
+
+        mousePositionX = mouseScreenPosition.x;
+        mousePositionY = mouseScreenPosition.y;
 
         // Print the rounded mouse position relative to the game viewport with center as (0, 0)
-        //Debug.Log("Using Mouse ---- " + movementInputX + ", " + movementInputY);
+        //Debug.Log("Mouse Position (Rounded): " + mousePositionX + ", " + mousePositionY);
     }
-
-    void AimWithGamepad(InputAction.CallbackContext context)
-    {
-        // Get Joystick Input
-        Vector2 joyStickInput = context.ReadValue<Vector2>();
-
-        // Assign to global movement input variables
-        movementInputX = joyStickInput.x;
-        movementInputY = joyStickInput.y;
-
-        //Debug.Log("Using Gamepad ---- " + joyStickInput);
-    }
-
-
-
 }
